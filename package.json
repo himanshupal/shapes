@@ -1,6 +1,6 @@
 {
 	"scripts": {
-		"build": "esbuild --bundle --minify --sourcemap babylon/index.ts --outdir=dist",
+		"build": "esbuild --bundle --minify --sourcemap babylon/index.ts --outdir=public/dist",
 		"dev": "yarn build --watch"
 	},
 	"devDependencies": {
