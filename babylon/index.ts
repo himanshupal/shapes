@@ -7,8 +7,9 @@ import { MeshBuilder } from "@babylonjs/core/Meshes/meshBuilder";
 import { Mesh } from "@babylonjs/core/Meshes/mesh";
 
 import { addLabelToMesh } from "./gui";
+import { StandardMaterial } from "@babylonjs/core/Materials/standardMaterial";
 
-var canvas: any = document.getElementById("canvas");
+var canvas: HTMLCanvasElement = document.getElementById("canvas") as HTMLCanvasElement;
 var engine: Engine = new Engine(canvas, true);
 
 function createScene(): Scene {
@@ -18,10 +19,16 @@ function createScene(): Scene {
 	camera.attachControl(canvas, true);
 
 	var light1: HemisphericLight = new HemisphericLight("light1", new Vector3(1, 1, 0), scene);
+	light1.shadowEnabled = true;
+	scene.addLight(light1);
+
+	var material = new StandardMaterial("material", scene);
+	material.wireframe = true;
 
 	var sphere: Mesh = MeshBuilder.CreateSphere("sphere", { diameter: 1 }, scene);
+	sphere.material = material;
 
-	addLabelToMesh(sphere);
+	// addLabelToMesh(sphere);
 
 	return scene;
 }
@@ -30,4 +37,9 @@ var scene: Scene = createScene();
 
 engine.runRenderLoop(() => {
 	scene.render();
+});
+
+window.addEventListener("resize", function () {
+	canvas.height = window.innerHeight;
+	canvas.width = window.innerWidth;
 });
